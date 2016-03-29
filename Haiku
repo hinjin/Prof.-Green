@@ -1,0 +1,98 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+
+public class MainHaiku {
+	
+	public int syllCounter (String word){
+		int count = 0;
+		word = word.toLowerCase();
+		//Runs through word checking for vowels and adding to count if vowel found
+		for(int i=0; i<word.length(); i++){
+			
+			if((word.charAt(i))=='a')
+					count++;
+			
+			if((word.charAt(i))=='e')	
+					count++;
+			
+			if((word.charAt(i))=='i')
+					count++;
+			
+			if((word.charAt(i))=='o')
+					count++;
+			
+			if((word.charAt(i))=='u')
+					count++;
+			
+		}
+		
+		return count;
+	}
+	
+	public boolean isVowel(char c) {
+        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+	
+	public int countSyllables(String word) {
+	    int count = 0;
+	    word = word.toLowerCase();
+	    for (int i = 0; i < word.length(); i++) {
+	        if (word.charAt(i) == '\"' || word.charAt(i) == '\'' || word.charAt(i) == '-' || word.charAt(i) == ',' || word.charAt(i) == ')' || word.charAt(i) == '(') {
+	            word = word.substring(0,i)+word.substring(i+1, word.length());
+	        }
+	    }
+	    boolean isPrevVowel = false;
+	    for (int j = 0; j < word.length(); j++) {
+	        if (word.contains("a") || word.contains("e") || word.contains("i") || word.contains("o") || word.contains("u")) {
+	            if (isVowel(word.charAt(j)) && !((word.charAt(j) == 'e') && (j == word.length()-1))) {
+	                if (isPrevVowel == false) {
+	                    count++;
+	                    isPrevVowel = true;
+	                }
+	            } else {
+	                isPrevVowel = false;
+	            }
+	        } else {
+	            count++;
+	            break;
+	        }
+	    }
+	    return count;
+	}
+	
+	public static void main(String[] args) {
+		
+		File file = new File("haiku");	
+		String testHaiku = "";
+		String haiku = "";
+		int sylCount = 0;
+
+		BufferedReader br = null;
+		
+		try{
+			String sCurrentLine;
+			
+			br = new BufferedReader(new FileReader("haiku"));
+			
+			while((sCurrentLine = br.readLine()) != null){
+				System.out.println(sCurrentLine);
+			}
+			}catch(IOException e){
+				e.printStackTrace();
+			} finally{
+				try{
+					if(br != null)br.close();
+				} catch (IOException ex){
+					ex.printStackTrace();
+				}
+			}
+		}
+}
